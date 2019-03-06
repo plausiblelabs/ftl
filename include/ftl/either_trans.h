@@ -286,6 +286,11 @@ namespace ftl {
 				};
 			}
 
+            // Plausible customization:
+            // Clang fails to fall back on other valid template implementations in the case
+            // where a value of type eT<T>&& doesn't have a mutable lvalue type for the
+            // actual contained value
+#ifdef CLANG_NON_BROKEN_SFINAE
 			template<typename F>
 			static eT<U> bind(eT<T>&& e, F f) {
 				return eT<U>{
@@ -297,6 +302,7 @@ namespace ftl {
 					}
 				};
 			}
+#endif /* CLANG_NON_BROKEN_SFINAE */
 		};
 
 		// Automatic hoisting of plain either
